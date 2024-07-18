@@ -1494,17 +1494,7 @@ resource jumpboxvmschedule 'Microsoft.DevTestLab/schedules@2018-09-15' = if (dep
 // private dns zone
 //
 
-module privateDnsZone './createPrivateDnsZone.bicep' = if (deployPrivateEndpoints) {
-  name: 'createPrivateDnsZone'
-  params: {
-    privateDnsZoneName: deployPrivateEndpoints ? join(skip(split(cartsinternalapiaca.properties.configuration.ingress.fqdn, '.'), 2), '.') : ''
-    privateDnsZoneVnetId: deployPrivateEndpoints ? vnet.id : ''
-    privateDnsZoneVnetLinkName: privateDnsZoneVnetLinkName
-    privateDnsZoneARecordName: deployPrivateEndpoints ? join(take(split(cartsinternalapiaca.properties.configuration.ingress.fqdn, '.'), 2), '.') : ''
-    privateDnsZoneARecordIp: deployPrivateEndpoints ? cartsinternalapiacaenv.properties.staticIp : ''
-    resourceTags: resourceTags
-  }
-}
+
 
 // aca environment (internal)
 resource cartsinternalapiacaenv 'Microsoft.App/managedEnvironments@2022-06-01-preview' = if (deployPrivateEndpoints) {
