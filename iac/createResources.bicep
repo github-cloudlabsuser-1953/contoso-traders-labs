@@ -1082,7 +1082,7 @@ resource loganalyticsworkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 // aks cluster
 //
 
-resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
+resource aks 'Microsoft.ContainerService/managedClusters@2022-10-02-preview' = {
   name: aksClusterName
   location: resourceLocation
   tags: resourceTags
@@ -1096,8 +1096,8 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
       {
         name: 'agentpool'
         osDiskSizeGB: 0 // Specifying 0 will apply the default disk size for that agentVMSize.
-        count: 3
-        vmSize: 'standard_d2s_v3'
+        count: 1
+        vmSize: 'standard_b2s'
         osType: 'Linux'
         mode: 'System'
       }
@@ -1110,14 +1110,6 @@ resource aks 'Microsoft.ContainerService/managedClusters@2022-09-02-preview' = {
             keyData: loadTextContent('rsa.pub') // @TODO: temporary hack, until we autogen the keys
           }
         ]
-      }
-    }
-    addonProfiles: {
-      omsagent: {
-        enabled: true
-        config: {
-          logAnalyticsWorkspaceResourceID: loganalyticsworkspace.id
-        }
       }
     }
   }
